@@ -453,7 +453,7 @@ public:
 };
 
 /**************************************************************************************************************************************************************/
-class web_tls final: web_tls_sock, web_tls_wrapper, web {
+class web_tls: web_tls_sock, web_tls_wrapper, web {
 	void
 	write(const_buffer &&buf) override {
 		ws.write(buf);

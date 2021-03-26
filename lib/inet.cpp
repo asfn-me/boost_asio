@@ -514,73 +514,87 @@ public:
 } // namespace internal
 
 /**************************************************************************************************************************************************************/
-void
-tls::deleter(void *const tls) {
-	delete reinterpret_cast<internal::tls *>(tls);
-}
+class tls::proxy final: internal::tls {
+public:
+	using internal::tls::tls;
+	using internal::tls::get;
+	using internal::tls::post;
+};
 
 /**************************************************************************************************************************************************************/
 tls::tls(std::string const &host)
-: pimpl{new internal::tls{host}, deleter} {
+: pimpl{new proxy{host}} {
+}
+
+/**************************************************************************************************************************************************************/
+tls::~tls() {
 }
 
 /**************************************************************************************************************************************************************/
 void
 tls::reinit(std::string const &host) {
-	pimpl = std::unique_ptr<void, decltype(&deleter)>{new internal::tls{host}, deleter};
+	pimpl = std::make_unique<proxy>(host);
 }
 
 /**************************************************************************************************************************************************************/
 std::string
 tls::get(std::string const &path, std::map<std::string, std::string> const &fields) {
-	return reinterpret_cast<internal::tls *>(pimpl.get())->get(path, fields);
+	return pimpl->get(path, fields);
 }
 
 /**************************************************************************************************************************************************************/
 std::string
 tls::post(std::string const &path, std::string const &data, std::map<std::string, std::string> const &fields) {
-	return reinterpret_cast<internal::tls *>(pimpl.get())->post(path, data, fields);
+	return pimpl.get()->post(path, data, fields);
 }
 
 /**************************************************************************************************************************************************************/
-void
-web::deleter(void *const web) {
-	delete reinterpret_cast<internal::web_tls *>(web);
-}
+class web::proxy final: internal::web_tls {
+public:
+	using internal::web_tls::web_tls;
+	using internal::web::write;
+	using internal::web::read;
+	using internal::web::ping;
+	using internal::web::set_non_blocking;
+};
 
 /**************************************************************************************************************************************************************/
 web::web(std::string const &api, std::string const &host)
-: pimpl{new internal::web_tls{api, host}, deleter} {
+: pimpl{new proxy{api, host}} {
+}
+
+/**************************************************************************************************************************************************************/
+web::~web() {
 }
 
 /**************************************************************************************************************************************************************/
 void
 web::reinit(std::string const &api, std::string const &host) {
-	pimpl = std::unique_ptr<void, decltype(&deleter)>{new internal::web_tls{api, host}, deleter};
+	pimpl = std::make_unique<proxy>(api, host);
 }
 
 /**************************************************************************************************************************************************************/
 void
 web::write(std::string const &msg) {
-	reinterpret_cast<internal::web_tls *>(pimpl.get())->write(msg);
+	pimpl->write(msg);
 }
 
 /**************************************************************************************************************************************************************/
 std::string
 web::read() {
-	return reinterpret_cast<internal::web_tls *>(pimpl.get())->read();
+	return pimpl->read();
 }
 
 /**************************************************************************************************************************************************************/
 void
 web::ping(std::string const &msg) {
-	reinterpret_cast<internal::web_tls *>(pimpl.get())->ping(msg);
+	pimpl->ping(msg);
 }
 
 /**************************************************************************************************************************************************************/
 void
 web::set_non_blocking(bool const value) {
-	reinterpret_cast<internal::web_tls *>(pimpl.get())->set_non_blocking(value);
+	pimpl->set_non_blocking(value);
 }
 
 /**************************************************************************************************************************************************************/

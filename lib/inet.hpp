@@ -10,14 +10,15 @@ namespace inet {
 
 /**************************************************************************************************************************************************************/
 class tls {
-	static
-	void
-	deleter(void *);
+	class proxy;
 
-	std::unique_ptr<void, decltype(&deleter)> pimpl;
+	std::unique_ptr<proxy> pimpl;
 
 public:
 	tls(std::string const &host);
+
+	/******************************/
+	~tls();
 
 	/******************************/
 	void
@@ -34,11 +35,9 @@ public:
 
 /**************************************************************************************************************************************************************/
 class web {
-	static
-	void
-	deleter(void *);
+	class proxy;
 
-	std::unique_ptr<void, decltype(&deleter)> pimpl;
+	std::unique_ptr<proxy> pimpl;
 
 public:
 	class would_block {
@@ -46,6 +45,9 @@ public:
 
 	/******************************/
 	web(std::string const &api, std::string const &host);
+
+	/******************************/
+	~web();
 
 	/******************************/
 	void

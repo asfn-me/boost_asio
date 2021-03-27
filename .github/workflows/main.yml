@@ -35,7 +35,7 @@ jobs:
           cmake ..
 
       - name: Build all
-        run: make
+        run: make -C build
 
       - name: Run the example
         run: src/websocket

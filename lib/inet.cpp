@@ -1,5 +1,6 @@
 #include <string>
 #include <system_error>
+#include <iostream>
 
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>

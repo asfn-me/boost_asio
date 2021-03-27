@@ -38,4 +38,4 @@ jobs:
         run: make -C build
 
       - name: Run the example
-        run: src/websocket
+        run: build/src/websocket

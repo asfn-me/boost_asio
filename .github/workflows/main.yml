@@ -35,4 +35,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           pwd
-          false
+          make build
+          cd build
+          cmake ..
+          make

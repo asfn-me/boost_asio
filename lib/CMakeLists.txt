@@ -16,7 +16,7 @@ target_compile_options (${TARGET}
 )
 
 target_link_options (${TARGET}
-	PRIVATE -s
+	PRIVATE -O3 -pthread -s
 )
 
 target_include_directories (${TARGET}

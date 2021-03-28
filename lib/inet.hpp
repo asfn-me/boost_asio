@@ -1,5 +1,5 @@
-#ifndef __INET_INCLUDED
-#define __INET_INCLUDED
+#ifndef INET_INCLUDED__
+#define INET_INCLUDED__
 
 #include <memory>
 #include <string>
@@ -73,4 +73,4 @@ public:
 /**************************************************************************************************************************************************************/
 } // namespace inet
 
-#endif // __INET_INCLUDED
+#endif // INET_INCLUDED__

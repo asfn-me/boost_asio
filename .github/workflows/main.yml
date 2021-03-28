@@ -29,13 +29,10 @@ jobs:
         run: sudo apt-get install libboost-system-dev
 
       - name: Configure the build system
-        run: |
-          mkdir build
-          cd build
-          cmake ..
+        run: cmake -S . -B build
 
       - name: Build all
-        run: make -C build
+        run: cmake --build build
 
       - name: Run the example
         run: build/src/websocket
